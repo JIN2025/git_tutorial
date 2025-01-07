@@ -1,0 +1,42 @@
+name: Prettier Check
+
+# Pushされるとこのワークフローが起動
+on:
+  push:
+    branches:
+      - main  # mainブランチにPushされた際に動作
+    paths:
+      - '**/*.js'
+      - '**/*.ts'
+      - '**/*.json'
+      - '**/*.css'
+      - '**/*.html'
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest  # Linux環境で実行
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # コードをチェックアウト
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # 使用するNode.jsのバージョン（最新のLTSを使う）
+
+      - name: Install dependencies
+        run: |
+          npm install  # Prettierをインストール
+
+      - name: Run Prettier to format code
+        run: |
+          npx prettier --write .  # Prettierでコードを整形
+
+      - name: Commit and push if code is modified
+        run: |
+          git config --global user.name 'github-actions[bot]'  # コミット名を設定
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'  # コミットのメールアドレスを設定
+          git add .  # 変更をステージング
+          git commit -m "Apply Prettier formatting" || echo "No changes to commit"  # 変更があればコミット、なければ何もしない
+          git push  # 変更をGitHubにプッシュ
