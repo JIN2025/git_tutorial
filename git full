@@ -3,6 +3,10 @@ git merge
 aaa
 ｓｄｆｇ
 <<<<<<< HEAD
+<<<<<<< HEAD
 ｓｄｆｇ
 =======
 >>>>>>> aca1a96 (Update git full)
+=======
+ｓｄｆｇ
+>>>>>>> e1e9232 (Update git full)
